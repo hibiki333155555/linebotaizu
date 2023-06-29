@@ -9,9 +9,41 @@ const getUserProfile = (event, client) => client.getProfile(event.source.userId)
 
 // 受け取ったメッセージと返信するメッセージ(を返す関数)をマッピング
 export const messageMap = {
+  AddToDo: () => ({
+    "type": "template",
+    "altText": "this is a confirm template",
+    "template": {
+      "type": "confirm",
+      "text": "以下から選択してください",
+      "actions": [
+        {
+          "type": "message",
+          "label": "ToDo作成",
+          "text": "todo作成"
+        },
+        {
+          "type": "message",
+          "label": "ToDo一覧",
+          "text": "todo一覧"
+        }
+      ]
+    }
+  }),
+  todo作成: () => ({
+    type: 'text',
+    text: 'ToDoを入力してください',
+  }),
+  todo一覧: () => ({
+    type: 'text',
+    text: '爆殺!',
+  }),
   こんにちは: () => ({
     type: 'text',
-    text: 'こんにちは世界',
+    text: '爆殺!',
+  }),
+  おはよう: () => ({
+    type: 'text',
+    text: '破壊！破滅！'
   }),
   複数メッセージ: () => ([
     {
