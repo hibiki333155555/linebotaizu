@@ -1,11 +1,7 @@
 // AppContextクラスを作成
 export class AppContext {
-  constructor({
-    lineClient, contentFileDownloader, dynamoDBContext, s3Client,
-  }) {
+  constructor({ lineClient, contentFileDownloader }) {
     this.lineClient = lineClient;
     this.contentFileDownloader = contentFileDownloader;
-    this.dynamoDBContext = dynamoDBContext;
-    this.s3Client = s3Client;
   }
 }
