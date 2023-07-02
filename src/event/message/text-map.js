@@ -25,23 +25,18 @@ export const messageMap = {
       ]
     }
   }),
-  todo作成: async (event, appContext) => {
-    // ユーザーのプロフィール情報を取得
-    const profile = await getUserProfile(event, appContext.lineClient);
-    ToDoData.push(event.message.text);
-    // 返信するメッセージを作成
+  todo作成: async (event) => ({
+    const data = event.message.text;
+    await inputDataToArray(ToDoData, data);
+    const tt = ToDoData[1];
     return {
       type: 'text',
-      text: `ToDo: ${profile.displayName}\nユーザーID: ${profile.userId}\nプロフィール画像のURL: ${profile.pictureUrl}\nステータスメッセージ: ${profile.statusMessage}`,
-    };
-  },
-  todo一覧: () => {
-    console.log(ToDoData);
-    return {
-      type: 'text',
-      text: `${ToDoData}`,
-    };
-  },
+      text: tt
+    }
+  }),
+  todo一覧: () => ({
+
+  }),
   こんにちは: () => ({
     type: 'text',
     text: 'Hello, world',
