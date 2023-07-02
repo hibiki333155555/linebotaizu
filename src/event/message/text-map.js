@@ -34,15 +34,6 @@ export const messageMap = {
       ]
     }
   }),
-  todo作成: async (event) => ({
-    const data = event.message.text;
-    await inputDataToArray(ToDoData, data);
-    const tt = ToDoData[1];
-    return {
-      type: 'text',
-      text: tt
-    }
-  }),
   todo一覧: () => ({
 
   }),
