@@ -1,5 +1,6 @@
 import { hasKey } from '../../haskey.js';
 import { messageMap } from './text-map.js';
+let ToDoData = [];
 
 // テキストメッセージの処理をする関数
 export const textEvent = async (event, appContext) => {
