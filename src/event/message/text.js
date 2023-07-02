@@ -1,6 +1,5 @@
 import { hasKey } from '../../haskey.js';
 import { messageMap } from './text-map.js';
-let ToDoData = [];
 
 // テキストメッセージの処理をする関数
 export const textEvent = async (event, appContext) => {
@@ -11,6 +10,7 @@ export const textEvent = async (event, appContext) => {
   if (hasKey(messageMap, receivedMessage)) {
     return messageMap[receivedMessage](event, appContext);
   }
+
 
   // 返信するメッセージが存在しない場合
   return {

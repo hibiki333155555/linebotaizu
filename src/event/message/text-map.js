@@ -1,16 +1,8 @@
 // ユーザーのプロフィールを取得する関数
 const getUserProfile = (event, client) => client.getProfile(event.source.userId);
-let ToDoData = [
-  // id, todo_name, start_time, priority
-  [1, '力学', '毎週金曜日', 3], 
-  [2, 'aa', 'aa', 2], 
-  [3, 'eee', 'era', 1], 
-  [4, 'aaa', 'aerf', 0], 
-];
 
-function inputDataToArray(array, data) {
-  array.push(data);
-}
+let ToDoData = [];
+
 
 // 受け取ったメッセージと返信するメッセージ(を返す関数)をマッピング
 export const messageMap = {
@@ -32,6 +24,15 @@ export const messageMap = {
           text: 'todo一覧'
         }
       ]
+    }
+  }),
+  todo作成: async (event) => ({
+    const data = event.message.text;
+    await inputDataToArray(ToDoData, data);
+    const tt = ToDoData[1];
+    return {
+      type: 'text',
+      text: tt
     }
   }),
   todo一覧: () => ({
