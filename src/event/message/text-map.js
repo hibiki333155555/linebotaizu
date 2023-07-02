@@ -38,9 +38,11 @@ export const messageMap = {
   },
   todo一覧: () => {
     console.log(ToDoData);
+
+    const todoList = ToDoData.join('\n');
     return {
       type: 'text',
-      text: `${ToDoData}`,
+      text: `${todoList}`,
     };
   },
   こんにちは: () => ({
