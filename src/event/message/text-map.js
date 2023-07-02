@@ -1,100 +1,11 @@
 // ユーザーのプロフィールを取得する関数
 const getUserProfile = (event, client) => client.getProfile(event.source.userId);
-const todos = [];
 
 // 受け取ったメッセージと返信するメッセージ(を返す関数)をマッピング
 export const messageMap = {
-  AddToDo: () => ({
-    'type': 'template',
-    'altText': 'this is a confirm template',
-    'template': {
-      'type': 'confirm',
-      'text': '以下から選択してください',
-      'actions': [
-        {
-          'type': 'message',
-          'label': 'ToDo作成',
-          'text': 'todo作成'
-        },
-        {
-          'type': 'message',
-          'label': 'ToDo一覧',
-          'text': 'todo一覧'
-        }
-      ]
-    }
-  }),
-  ToDo作成: () => ({
-    type: 'text',
-    text: 'ToDoを入力してください',
-  }),
-  ToDo一覧: () => ({
-    type: 'text',
-    text: '爆殺!',
-  }),
-  ToDo削除: () => ({
-    type: 'text',
-    text: '爆殺!',
-  }),
   こんにちは: () => ({
     type: 'text',
-    text: '爆殺!',
-  }),
-  おはよう: () => ({
-    type: 'text',
-    text: '破壊！破滅！'
-  }),
-  予定: () => ({
-    type: 'text',
-    text: '予定を知りたい曜日を選んでください',
-    quickReply: {
-      items: [
-        {
-          type: 'action',
-          action: {
-            type: 'message',
-            text: '月曜日の予定',
-            label: '月曜日',
-          },
-        },
-        {
-          type: 'action',
-          action: {
-            type: 'message',
-            text: '金曜日の予定',
-            label: '金曜日',
-          },
-        },
-        {
-          type: 'action',
-          action: {
-            type: 'message',
-            text: '火曜日の予定',
-            label: '火曜日',
-          },
-        },
-        {
-          type: 'action',
-          action: {
-            type: 'message',
-            text: '水曜日の予定',
-            label: '水曜日',
-          },
-        },
-        {
-          type: 'action',
-          action: {
-            type: 'message',
-            text: '木曜日の予定',
-            label: '木曜日',
-          },
-        },
-      ],
-    },
-  }),
-  月曜日の予定: () => ({
-    type: 'text',
-    text: '1.コンピュータ理工学演習\n2.コンピュータ理工学演習\n3.コンピュータ理工学演習'
+    text: 'Hello, world',
   }),
   複数メッセージ: () => ([
     {
