@@ -5,4 +5,13 @@
 ## 正誤表
 # linebotaizu
 
-saaaa
+## git
+- 自分がやったことを他人に送り込みたい場合
+
+git add .
+git commit -m "readme を編集"
+git push
+
+- 他人がやったことを自分の環境に取り込みたい場合
+
+git pull
