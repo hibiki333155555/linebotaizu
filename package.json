@@ -20,11 +20,11 @@
   },
   "devDependencies": {
     "eslint": "^8.21.0",
-    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.26.0",
     "ngrok": "^4.3.1",
-    "nodemon": "^2.0.19",
-    "serverless": "^3.21.0"
+    "nodemon": "^1.14.9",
+    "serverless": "^1.60.5"
   },
   "type": "module"
 }
