@@ -5,21 +5,21 @@ const todos = [];
 // 受け取ったメッセージと返信するメッセージ(を返す関数)をマッピング
 export const messageMap = {
   AddToDo: () => ({
-    "type": "template",
-    "altText": "this is a confirm template",
-    "template": {
-      "type": "confirm",
-      "text": "以下から選択してください",
-      "actions": [
+    'type': 'template',
+    'altText': 'this is a confirm template',
+    'template': {
+      'type': 'confirm',
+      'text': '以下から選択してください',
+      'actions': [
         {
-          "type": "message",
-          "label": "ToDo作成",
-          "text": "todo作成"
+          'type': 'message',
+          'label': 'ToDo作成',
+          'text': 'todo作成'
         },
         {
-          "type": "message",
-          "label": "ToDo一覧",
-          "text": "todo一覧"
+          'type': 'message',
+          'label': 'ToDo一覧',
+          'text': 'todo一覧'
         }
       ]
     }
