@@ -42,10 +42,7 @@ export const textEvent = async (event, appContext) => {
       };
     }
     console.log(ToDoData);
-    let dodata = [];
-    dodata.push(ToDoData.length + 1);
-    dodata.push(receivedMessage);
-    ToDoData.push(dodata);
+    ToDoData.push(receivedMessage);
   }
 
   // 返信するメッセージが存在しない場合
