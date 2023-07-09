@@ -26,11 +26,20 @@ export const messageMap = {
       ]
     }
   }),
-  todo作成: async (event, appContext) => {
-    // ユーザーのプロフィール情報を取得
+  todo作成: async (event, appContext) => ({
+    type: 'text',
+    text: '作成するToDoを入力してください',
+    actions: [
+      {
+        type: 'message',
+        label: '作成',
+        text: '作成'
+      }
+    ]
+  }),
+  作成: async (event, appContext) => {
     const profile = await getUserProfile(event, appContext.lineClient);
     ToDoData.push(event.message.text);
-    // 返信するメッセージを作成
     return {
       type: 'text',
       text: `ToDo: ${profile.displayName}\nユーザーID: ${profile.userId}\nプロフィール画像のURL: ${profile.pictureUrl}\nステータスメッセージ: ${profile.statusMessage}`,
@@ -38,7 +47,6 @@ export const messageMap = {
   },
   todo一覧: () => {
     console.log(ToDoData);
-
     const todoList = ToDoData.join('\n');
     return {
       type: 'text',
