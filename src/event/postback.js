@@ -3,6 +3,7 @@ export const postbackHandler = (event) => {
   let message;
   // ポストバックデータをpostbackDataに格納
   const postbackData = event.postback.data;
+
   // もしevent.postback.paramsが存在する場合
   if (event.postback.params) {
     // 返信するメッセージを作成

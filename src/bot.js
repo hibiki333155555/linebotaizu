@@ -11,6 +11,17 @@ import { memberLeftHandler } from './event/member-left.js';
 import { error, log } from './log.js';
 import { hasKey } from './haskey.js';
 
+
+const TASKDATA = [];
+
+const taskc = [];
+let tasknum = 1;
+let addstring = '';
+let delkey = 1;
+let deltask = false;
+let addtask = [false, false, false];
+let taskstr = '';
+
 // イベントタイプとHandler関数の対応オブジェクトを作成
 const eventHandlers = {
   message: messageHandler,
