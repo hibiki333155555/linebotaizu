@@ -1,7 +1,14 @@
 import { hasKey } from '../../haskey.js';
 // import { messageMap } from './text-map.js';
 
-let ToDoData = [];
+let ToDoData = [
+  [1, "破壊 7/16 5時"],
+  [2, "破壊 7/17 13時"],
+  [3, "破壊 7/18 17時"],
+  [4, "破壊 7/19 22時"]
+];
+
+let sakujokey = 0;
 
 // テキストメッセージの処理をする関数
 export const textEvent = async (event, appContext) => {
@@ -14,9 +21,11 @@ export const textEvent = async (event, appContext) => {
   }
   else {
     console.log(ToDoData);
-    ToDoData.push(event.message.text);
+    let dodata = [];
+    dodata.push(ToDoData.length + 1);
+    dodata.push(event.message.text);
+    ToDoData.push(dodata);
   }
-
 
   // 返信するメッセージが存在しない場合
   return {
@@ -27,8 +36,6 @@ export const textEvent = async (event, appContext) => {
 
 // ユーザーのプロフィールを取得する関数
 const getUserProfile = (event, client) => client.getProfile(event.source.userId);
-
-
 
 // 受け取ったメッセージと返信するメッセージ(を返す関数)をマッピング
 const messageMap = {
@@ -52,31 +59,42 @@ const messageMap = {
       ]
     }
   }),
-  todo作成: async (event, appContext) => ({
-    type: 'text',
-    text: '作成するToDoを入力してください',
-    actions: [
-      {
-        type: 'message',
-        label: '作成',
-        text: '作成'
-      }
-    ]
-  }),
-  作成: async (event, appContext) => {
-    const profile = await getUserProfile(event, appContext.lineClient);
-    ToDoData.push(event.message.text);
+  ToDo作成: () => {
     return {
       type: 'text',
-      text: `ToDo: ${profile.displayName}\nユーザーID: ${profile.userId}\nプロフィール画像のURL: ${profile.pictureUrl}\nステータスメッセージ: ${profile.statusMessage}`,
+      text: '作成するToDoを入力してください'
     };
   },
-  todo一覧: () => {
+  ToDo一覧: () => {
     console.log(ToDoData);
-    const todoList = ToDoData.join('\n');
+    let todoList = ["❤️---TASKS---❤️"];
+
+    ToDoData.forEach(elm => {
+      Object.keys(elm).forEach(key => {
+        todoList.push(elm[key]);
+      })
+    })
+    console.log(todoList);
+
     return {
       type: 'text',
-      text: `${todoList}`,
+      text: `${todoList.join('\n')}`,
+    };
+  },
+  ToDo削除: () => {
+    console.log(ToDoData);
+    let todoList = ["❤️---TASKS---❤️"];
+
+    ToDoData.forEach(elm => {
+      Object.keys(elm).forEach(key => {
+        todoList.push(elm[key]);
+      })
+    })
+    console.log(todoList);
+
+    return {
+      type: 'text',
+      text: `${todoList.join('\n')}`,
     };
   },
   こんにちは: () => ({
