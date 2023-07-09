@@ -2,13 +2,13 @@ import { hasKey } from '../../haskey.js';
 // import { messageMap } from './text-map.js';
 
 let ToDoData = [
-  [1, "破壊 7/16 5時"],
-  [2, "破壊 7/17 13時"],
-  [3, "破壊 7/18 17時"],
-  [4, "破壊 7/19 22時"]
+  "破壊 7/16 5時",
+  "破壊 7/17 13時",
+  "破壊 7/18 17時",
+  "破壊 7/19 22時"
 ];
 
-let sakujokey = 0;
+let delkey = 1;
 
 // テキストメッセージの処理をする関数
 export const textEvent = async (event, appContext) => {
@@ -20,10 +20,31 @@ export const textEvent = async (event, appContext) => {
     return messageMap[receivedMessage](event, appContext);
   }
   else {
+    // データを削除する際 (メッセージが一文字の場合)
+    if (event.message.text.length === 1) {
+      delkey = parseInt(receivedMessage, 10);
+      // 削除できるTASKが存在しない場合
+      if (delkey > ToDoData.length) {
+        return {
+          type: 'text',
+          text: `TASK${receivedMessage}は存在しません`,
+        };
+      }
+      // 削除できるTASKがある場合
+      if (delkey === 1) {
+        ToDoData.shift();
+      } else {
+        ToDoData.splice(delkey - 1, 1);
+      }
+      return {
+        type: 'text',
+        text: `TASK${receivedMessage}を削除しました`,
+      };
+    }
     console.log(ToDoData);
     let dodata = [];
     dodata.push(ToDoData.length + 1);
-    dodata.push(event.message.text);
+    dodata.push(receivedMessage);
     ToDoData.push(dodata);
   }
 
@@ -33,6 +54,10 @@ export const textEvent = async (event, appContext) => {
     text: `${receivedMessage}\nを追加しました`,
   };
 };
+
+const delTask = (delkey) => {
+
+}
 
 // ユーザーのプロフィールを取得する関数
 const getUserProfile = (event, client) => client.getProfile(event.source.userId);
@@ -68,33 +93,21 @@ const messageMap = {
   ToDo一覧: () => {
     console.log(ToDoData);
     let todoList = ["❤️---TASKS---❤️"];
-
+    let i = 1;
     ToDoData.forEach(elm => {
-      Object.keys(elm).forEach(key => {
-        todoList.push(elm[key]);
-      })
+      todoList.push(i);
+      i = i + 1;
+      todoList.push(elm);
     })
-    console.log(todoList);
-
     return {
       type: 'text',
       text: `${todoList.join('\n')}`,
     };
   },
   ToDo削除: () => {
-    console.log(ToDoData);
-    let todoList = ["❤️---TASKS---❤️"];
-
-    ToDoData.forEach(elm => {
-      Object.keys(elm).forEach(key => {
-        todoList.push(elm[key]);
-      })
-    })
-    console.log(todoList);
-
     return {
       type: 'text',
-      text: `${todoList.join('\n')}`,
+      text: '削除するTASKの番号を指定してください',
     };
   },
   こんにちは: () => ({
