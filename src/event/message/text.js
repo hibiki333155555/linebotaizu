@@ -1,19 +1,21 @@
 import { hasKey } from '../../haskey.js';
+import { PSDATA } from '../postback.js';
 //import { messageMap } from './text-map.js';
 
-const TASKDATA = [];
-const taskc = [];
-let tasknum = 1;
-let addstring = '';
-let delkey = 1;
-let deltask = false;
-let addtask = [false, false, false];
-let taskstr = '';
+export let TASKDATA = ['A社面接 7/22 13時', 'B社面接 7/23 13時', 'C社面接 7/24 13時',];
+export let taskc = [];
+export let tasknum = 1;
+export let addstring = '';
+export let delkey = 1;
+export let deltask = false;
+export let addtask = [false, false, false];
+export let taskstr = '';
 
 
 // テキストメッセージの処理をする関数
 export const textEvent = async (event, appContext) => {
   // ユーザーから送られてきたメッセージ
+  TASKDATA = PSDATA;
   const receivedMessage = event.message.text;
 
   // 送られてきたメッセージに応じて返信するメッセージを取得してreturn
@@ -64,6 +66,7 @@ export const textEvent = async (event, appContext) => {
     addstring += receivedMessage + '時';
     TASKDATA.push(addstring);
 
+    /*
     tasknum = TASKDATA.length;
     const car = {
       "title": `TASK${tasknum}`,
@@ -82,6 +85,7 @@ export const textEvent = async (event, appContext) => {
       ],
     };
     taskc.push(car);
+    */
 
     addstring = '';
     taskstr = ' ';
@@ -100,7 +104,7 @@ export const textEvent = async (event, appContext) => {
 };
 
 // 受け取ったメッセージと返信するメッセージ(を返す関数)をマッピング
-const messageMap = {
+export const messageMap = {
   TASK追加: () => {
     addtask[0] = true;
     return {
@@ -134,7 +138,7 @@ const messageMap = {
       text: `${taskList.join('\n')}`,
     };
   },
-  task削除: () => {
+  TASK削除: () => {
     deltask = true;
     return {
       type: 'text',
@@ -146,6 +150,22 @@ const messageMap = {
     text: 'まだ耐えて',
   }),
   TASKカルーセル: () => {
+    let taskc = [];
+    for (let i = 0; i < TASKDATA.length; i++) {
+      const car = {
+        "title": `TASK${i + 1}`,
+        "text": `${TASKDATA[i]}`,
+        "actions": [
+          {
+            "type": "postback",
+            "label": "達成ボタン",
+            "data": `action=達成&itemid=${i + 1}`,
+          },
+        ],
+      };
+      taskc.push(car);
+    }
+
     return {
       "type": "template",
       "altText": "this is a carousel template",
