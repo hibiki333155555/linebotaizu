@@ -1,5 +1,6 @@
 import { hasKey } from '../../haskey.js';
 import { PSDATA } from '../postback.js';
+import { tuuti } from './tuuti.js';
 //import { messageMap } from './text-map.js';
 
 export let TASKDATA = ['A社面接 7/22 13時', 'B社面接 7/23 13時', 'C社面接 7/24 13時',];
@@ -10,6 +11,22 @@ export let delkey = 1;
 export let deltask = false;
 export let addtask = [false, false, false];
 export let taskstr = '';
+
+function ti() {
+  console.log("a");
+}
+
+const formattedDateTime = (date) => {
+  const y = date.getFullYear();
+  const m = ('0' + (date.getMonth() + 1)).slice(-2);
+  const d = ('0' + date.getDate()).slice(-2);
+  const h = ('0' + date.getHours()).slice(-2);
+  const mi = ('0' + date.getMinutes()).slice(-2);
+  const s = ('0' + date.getSeconds()).slice(-2);
+  return y + m + d + h + mi + s;
+}
+
+
 
 
 // テキストメッセージの処理をする関数
@@ -124,7 +141,7 @@ export const messageMap = {
       text: `「 ${taskstr} 」 の開始あるいは締め切り時刻を数字[1~24]で入力してください\n    例: 13`,
     };
   },
-  TASK一覧: () => {
+  生TASK: () => {
     console.log(TASKDATA);
     let taskList = ["❤️---TASKS---❤️"];
     let i = 1;
@@ -138,6 +155,14 @@ export const messageMap = {
       text: `${taskList.join('\n')}`,
     };
   },
+  定期通知: () => {
+    setInterval(tuuti, 2000);
+
+    return {
+      type: 'text',
+      text: 'aa',
+    };
+  },
   TASK削除: () => {
     deltask = true;
     return {
@@ -145,16 +170,33 @@ export const messageMap = {
       text: '削除するTASKの番号を指定してください',
     };
   },
+  TASK保存: () => {
+    const serializedArray = JSON.stringify(TASKDATA);
+    localStorage.setItem('myArray', serializedArray);
+    return {
+      type: 'text',
+      text: 'TASKの保存が完了しました',
+    };
+  },
   こんにちは: () => ({
     type: 'text',
     text: 'まだ耐えて',
   }),
-  TASKカルーセル: () => {
+  現在時刻: () => {
+    const date = new Date();
+    const currentTime = formattedDateTime(date);
+    console.log(currentTime);
+    return {
+      type: 'text',
+      text: `${currentTime}`,
+    };
+  },
+  TASK一覧: () => {
     let taskc = [];
     for (let i = 0; i < TASKDATA.length; i++) {
       const car = {
-        "title": `TASK${i + 1}`,
-        "text": `${TASKDATA[i]}`,
+        "title": `${TASKDATA[i]}`,
+        "text": `TASK${i + 1}`,
         "actions": [
           {
             "type": "postback",

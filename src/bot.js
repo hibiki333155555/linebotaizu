@@ -40,6 +40,7 @@ const replyMessage = (event, message, appContext) => appContext.lineClient
 // 例えば同時に2つメッセージが送信された場合は、配列に入った状態で1つのWebhookイベントで飛んでくることがある
 export const bot = (events, appContext) => events.map(async (event) => {
   // もし対応していないタイプのイベントが飛んできた場合は何もせず次のイベント処理へ
+
   if (!hasKey(eventHandlers, event.type)) return new Promise();
 
   // イベントタイプに応じて対応するHandler関数を取得
