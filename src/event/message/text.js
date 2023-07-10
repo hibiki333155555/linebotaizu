@@ -1,9 +1,9 @@
 import { hasKey } from '../../haskey.js';
 import { PSDATA } from '../postback.js';
-import { tuuti } from './tuuti.js';
+import { itijikanmae, ohayo } from './tuuti.js';
 //import { messageMap } from './text-map.js';
 
-export let TASKDATA = ['A社面接 7/22 13時', 'B社面接 7/23 13時', 'C社面接 7/24 13時',];
+export let TASKDATA = ['A社面接 7/10 22時', 'B社面接 7/10 23時', 'C社面接 7/24 24時',];
 export let taskc = [];
 export let tasknum = 1;
 export let addstring = '';
@@ -11,20 +11,48 @@ export let delkey = 1;
 export let deltask = false;
 export let addtask = [false, false, false];
 export let taskstr = '';
-
-function ti() {
-  console.log("a");
-}
+let tuutiflag = false;
+var refreshIntervalId;
 
 const formattedDateTime = (date) => {
-  const y = date.getFullYear();
+  // const y = date.getFullYear();
   const m = ('0' + (date.getMonth() + 1)).slice(-2);
   const d = ('0' + date.getDate()).slice(-2);
   const h = ('0' + date.getHours()).slice(-2);
-  const mi = ('0' + date.getMinutes()).slice(-2);
-  const s = ('0' + date.getSeconds()).slice(-2);
-  return y + m + d + h + mi + s;
-}
+  // const mi = ('0' + date.getMinutes()).slice(-2);
+  // const s = ('0' + date.getSeconds()).slice(-2);
+  return m + d + h;
+};
+
+// 定期通知の関数
+function tuuti() {
+
+  // 現在時刻を取得 例: 071022
+  const date = new Date();
+  const currentTime = formattedDateTime(date);
+  console.log(currentTime);
+
+  const regex = /.* (\d+)\/(\d+) (\d+)/;
+  for (let i = 0; i < TASKDATA.length; i++) {
+    const result = TASKDATA[i].match(regex);
+    for (let j = 1; j < 4; j++) {
+      if (result[j].length === 1) result[j] = '0' + result[j];
+    }
+    const love = result[1] + result[2] + result[3];
+    //console.log(result);
+    //console.log(love);
+    //console.log(parseInt(love.substring(1, 6)));
+
+    if ((love.substring(0, 5) === currentTime.substring(0, 5)) && (parseInt(love.substring(1, 6)) === parseInt(currentTime.substring(1, 6)) + 1)) {
+      itijikanmae(result[0]);
+    }
+    console.log(currentTime.substring(4, 6));
+  }
+
+  if (currentTime.substring(4, 6) === '21') {
+    ohayo();
+  }
+};
 
 
 
@@ -156,12 +184,22 @@ export const messageMap = {
     };
   },
   定期通知: () => {
-    setInterval(tuuti, 2000);
-
-    return {
-      type: 'text',
-      text: 'aa',
-    };
+    if (!tuutiflag) {
+      tuutiflag = true;
+      refreshIntervalId = setInterval(tuuti, 3000);
+      return {
+        type: 'text',
+        text: '通知をオンにしました',
+      };
+    }
+    else {
+      tuutiflag = false;
+      clearInterval(refreshIntervalId);
+      return {
+        type: 'text',
+        text: '通知をオフにしました',
+      };
+    }
   },
   TASK削除: () => {
     deltask = true;
@@ -218,36 +256,32 @@ export const messageMap = {
         "imageSize": "cover"
       }
     }
+  },
+  test: () => {
+    const date = new Date();
+    const currentTime = formattedDateTime(date);
+    console.log(currentTime);
+
+    const mdhOfTask = [];
+    // const regex = /.* (1[0-2])|([1-9])\/([1-9]|[1-2][0-9]|3[0-1]) (0[1-9]|1[0-9]|2[0-4])/
+    const regex = /.* (\d+)\/(\d+) (\d+)/;
+    for (let i = 0; i < TASKDATA.length; i++) {
+      //mdhOfTask.push(TASKDATA[i].match(regex)[0]);
+      //console.log(TASKDATA[i].match(regex)[0]);
+      const result = TASKDATA[i].match(regex);
+      for (let j = 1; j < 4; j++) {
+        if (result[j].length === 1) result[j] = '0' + result[j];
+      }
+      console.log(result[1] + result[2] + result[3]);
+    }
+    //console.log(mdhOfTask);
+  },
+  何時: () => {
+    const date = new Date();
+    return {
+      type: 'text',
+      text: `${('0' + date.getHours()).slice(-2)}時だよ`
+    };
   }
 };
 
-/*
-{
-  "thumbnailImageUrl": "https://example.com/bot/images/item1.jpg",
-  "imageBackgroundColor": "#FFFFFF",
-  "title": "this is menu",
-  "text": "description",
-  "defaultAction": {
-    "type": "uri",
-    "label": "View detail",
-    "uri": "http://example.com/page/123"
-  },
-  "actions": [
-    {
-      "type": "postback",
-      "label": "Buy",
-      "data": "action=buy&itemid=111"
-    },
-    {
-      "type": "postback",
-      "label": "Add to cart",
-      "data": "action=add&itemid=111"
-    },
-    {
-      "type": "uri",
-      "label": "View detail",
-      "uri": "http://example.com/page/111"
-    }
-  ]
-},
-*/

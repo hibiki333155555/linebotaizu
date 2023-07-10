@@ -1,5 +1,5 @@
 import { TASKDATA, taskc, tasknum, addstring, deltask, addtask, taskstr, textEvent } from './message/text.js'
-export let PSDATA = ['A社面接 7/22 13時', 'B社面接 7/23 13時', 'C社面接 7/24 13時',];
+export let PSDATA = ['A社面接 7/10 22時', 'B社面接 7/10 23時', 'C社面接 7/24 13時',];
 
 // ポストバックイベントが飛んできた時
 export const postbackHandler = (event) => {
