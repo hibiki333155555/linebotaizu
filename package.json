@@ -11,20 +11,20 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@line/bot-sdk": "^7.5.0",
-    "aws-sdk": "^2.1187.0",
-    "axios": "^0.27.2",
-    "dotenv": "^16.0.1",
+    "@line/bot-sdk": "^7.5.2",
+    "aws-sdk": "^2.1413.0",
+    "axios": "^1.4.0",
+    "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "node-cron": "^3.0.2"
   },
   "devDependencies": {
-    "eslint": "^8.21.0",
+    "eslint": "^8.44.0",
     "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.26.0",
-    "ngrok": "^4.3.1",
-    "nodemon": "^2.0.19",
-    "serverless": "^3.21.0"
+    "eslint-plugin-import": "^2.27.5",
+    "ngrok": "^4.3.3",
+    "nodemon": "^3.0.1",
+    "serverless": "^3.33.0"
   },
   "type": "module"
 }
