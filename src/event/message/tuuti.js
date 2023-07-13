@@ -29,7 +29,9 @@ export const itijikanmae = (data) => {
         })
     });
 };
-export const ohayo = () => {
+export const ohayo = (data) => {
+    let m = "おはよう!"
+    if (data.length > 1) m = `おはよう!今日の予定だよ!\n ${data.join('\n')}`;
     fetch('https://api.line.me/v2/bot/message/push', {
         method: 'POST',
         headers: {
@@ -42,7 +44,7 @@ export const ohayo = () => {
             'messages': [
                 {
                     'type': 'text',
-                    'text': `おはよう`
+                    'text': `${m}`
                 }
             ]
         })

@@ -1,6 +1,7 @@
 import { hasKey } from '../../haskey.js';
 import { PSDATA } from '../postback.js';
 import { itijikanmae, ohayo } from './tuuti.js';
+import { PythonShell } from 'python-shell';
 //import { messageMap } from './text-map.js';
 
 export let TASKDATA = ['A社面接 7/10 22時', 'B社面接 7/10 23時', 'C社面接 7/24 24時',];
@@ -13,6 +14,7 @@ export let addtask = [false, false, false];
 export let taskstr = '';
 let tuutiflag = false;
 var refreshIntervalId;
+
 
 const formattedDateTime = (date) => {
   // const y = date.getFullYear();
@@ -49,13 +51,23 @@ function tuuti() {
     console.log(currentTime.substring(4, 6));
   }
 
-  if (currentTime.substring(4, 6) === '21') {
+  if (currentTime.substring(4, 6) === '08') {
+    let m = [];
+    for (let i = 0; i < TASKDATA.length; i++) {
+      const result = TASKDATA[i].match(regex);
+      for (let j = 1; j < 4; j++) {
+        if (result[j].length === 1) result[j] = '0' + result[j];
+      }
+      const love = result[1] + result[2] + result[3];
+
+      if ((love.substring(0, 5) === currentTime.substring(0, 5)) && (parseInt(love.substring(1, 6)) === parseInt(currentTime.substring(1, 6)) + 1)) {
+        itijikanmae(result[0]);
+      }
+      console.log(currentTime.substring(4, 6));
+    }
     ohayo();
   }
 };
-
-
-
 
 // テキストメッセージの処理をする関数
 export const textEvent = async (event, appContext) => {
@@ -67,7 +79,6 @@ export const textEvent = async (event, appContext) => {
   if (hasKey(messageMap, receivedMessage)) {
     return messageMap[receivedMessage](event, appContext);
   }
-
 
   // データを削除する際 deltaskがtrueの際
   if (deltask === true) {
@@ -282,6 +293,25 @@ export const messageMap = {
       type: 'text',
       text: `${('0' + date.getHours()).slice(-2)}時だよ`
     };
-  }
+  },
+  テスト: () => {
+
+    console.log('ok1');
+    /*
+    PythonShell.run('./src/event/message/script.py', null, function (err, data) {
+      if (err) throw err;
+      console.log(data);
+      console.log('ok2');
+    });
+    */
+    var pyshell = new PythonShell('./src/event/message/script.py');
+    //pyshell.send(5);
+
+    pyshell.on('message', function (data) {
+      console.log(data);
+    });
+
+    console.log('ok3');
+  },
 };
 
