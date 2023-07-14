@@ -1,6 +1,6 @@
 import { hasKey } from '../../haskey.js';
 import { PSDATA } from '../postback.js';
-import { itijikanmae, ohayo } from './tuuti.js';
+import { itijikanmae, ohayo, osyaberiGPT } from './tuuti.js';
 import { PythonShell } from 'python-shell';
 //import { messageMap } from './text-map.js';
 
@@ -14,6 +14,7 @@ export let addtask = [false, false, false];
 export let taskstr = '';
 let tuutiflag = false;
 var refreshIntervalId;
+let isgpt = false;
 
 
 const formattedDateTime = (date) => {
@@ -25,6 +26,7 @@ const formattedDateTime = (date) => {
   // const s = ('0' + date.getSeconds()).slice(-2);
   return m + d + h;
 };
+
 
 // 定期通知の関数
 function tuuti() {
@@ -79,6 +81,7 @@ export const textEvent = async (event, appContext) => {
   if (hasKey(messageMap, receivedMessage)) {
     return messageMap[receivedMessage](event, appContext);
   }
+
 
   // データを削除する際 deltaskがtrueの際
   if (deltask === true) {
@@ -153,10 +156,20 @@ export const textEvent = async (event, appContext) => {
   // ↑ までがtask作成の工程
 
   // エラー
-  return {
-    type: 'text',
-    text: 'そのメッセージには対応していません',
-  };
+
+  if (isgpt) {
+    const hento = await osyaberiGPT(receivedMessage);
+    console.log(hento);
+    return {
+      type: 'text',
+      text: `${hento}`,
+    };
+  } else {
+    return {
+      type: 'text',
+      text: 'そのメッセージには対応していません',
+    };
+  }
 };
 
 // 受け取ったメッセージと返信するメッセージ(を返す関数)をマッピング
@@ -312,6 +325,21 @@ export const messageMap = {
     });
 
     console.log('ok3');
+  },
+  gpt: () => {
+    if (isgpt) {
+      isgpt = false;
+      return {
+        type: 'text',
+        text: 'gptモードをオフにしました',
+      };
+    } else {
+      isgpt = true;
+      return {
+        type: 'text',
+        text: 'gptモードをオンにしました',
+      };
+    }
   },
 };
 

@@ -29,4 +29,5 @@ export const messageMap = {
     type: 'text',
     text: 'まだ耐えて',
   }),
+
 };

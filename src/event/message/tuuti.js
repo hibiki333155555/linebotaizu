@@ -29,6 +29,7 @@ export const itijikanmae = (data) => {
         })
     });
 };
+
 export const ohayo = (data) => {
     let m = "おはよう!"
     if (data.length > 1) m = `おはよう!今日の予定だよ!\n ${data.join('\n')}`;
@@ -50,3 +51,34 @@ export const ohayo = (data) => {
         })
     });
 };
+
+export const osyaberiGPT = async (data) => {
+
+    // console.log('ここだね1');
+
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer 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'
+        },
+        body: JSON.stringify({
+            'model': 'gpt-3.5-turbo',
+            'messages': [
+                {
+                    'role': 'user',
+                    'content': `次のメッセージに20文字以内で答えて\n${data}`,
+                }
+            ],
+            'temperature': 0.7,
+        })
+    });
+
+    // console.log('ここだね2');
+    const osya = await response.json();
+    console.log(osya);
+    console.log(osya.choices[0].message.content);
+
+
+    return await osya.choices[0].message.content;
+}
