@@ -60,7 +60,7 @@ export const osyaberiGPT = async (data) => {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer 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'
+            'Authorization': 'Bearer '
         },
         body: JSON.stringify({
             'model': 'gpt-3.5-turbo',
