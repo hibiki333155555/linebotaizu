@@ -14,21 +14,20 @@ export let taskstr = '';
 let tuutiflag = false;
 var refreshIntervalId;
 let isgpt = false;
+let tuutisettei = [false, false];
+let nanjikanmae = 1;
 
 
 const formattedDateTime = (date) => {
-  // const y = date.getFullYear();
   const m = ('0' + (date.getMonth() + 1)).slice(-2);
   const d = ('0' + date.getDate()).slice(-2);
   const h = ('0' + date.getHours()).slice(-2);
-  // const mi = ('0' + date.getMinutes()).slice(-2);
-  // const s = ('0' + date.getSeconds()).slice(-2);
   return m + d + h;
 };
 
 
 // 定期通知の関数
-function tuuti() {
+function tuuti(nanjikanmae) {
 
   // 現在時刻を取得 例: 071022
   const date = new Date();
@@ -46,7 +45,7 @@ function tuuti() {
     //console.log(love);
     //console.log(parseInt(love.substring(1, 6)));
 
-    if ((love.substring(0, 5) === currentTime.substring(0, 5)) && (parseInt(love.substring(1, 6)) === parseInt(currentTime.substring(1, 6)) + 1)) {
+    if ((love.substring(0, 5) === currentTime.substring(0, 5)) && (parseInt(love.substring(1, 6)) <= parseInt(currentTime.substring(1, 6)) + nanjikanmae)) {
       itijikanmae(result[0]);
     }
     console.log(currentTime.substring(4, 6));
@@ -124,26 +123,7 @@ export const textEvent = async (event, appContext) => {
     addstring += receivedMessage + '時';
     TASKDATA.push(addstring);
 
-    /*
-    tasknum = TASKDATA.length;
-    const car = {
-      "title": `TASK${tasknum}`,
-      "text": `${addstring}`,
-      "actions": [
-        {
-          "type": "postback",
-          "label": "達成ボタン",
-          "data": "action=buy&itemid=111",
-        },
-        {
-          "type": "postback",
-          "label": "Add to cart",
-          "data": "action=add&itemid=111",
-        },
-      ],
-    };
-    taskc.push(car);
-    */
+
 
     addstring = '';
     taskstr = ' ';
@@ -153,6 +133,25 @@ export const textEvent = async (event, appContext) => {
     };
   }
   // ↑ までがtask作成の工程
+
+
+  if (tuutisettei[0] = true) {
+    tuutisettei = [false, true];
+    nanjikanmae = parseInt(receivedMessage);
+    return {
+      type: 'text',
+      text: '通知開始から何分ごとに通知するか数字[10~240]で入力してください。\n  例: 30',
+    };
+  }
+
+  if (tuutisettei[1] = true) {
+    tuutisettei = [false, false];
+    refreshIntervalId = setInterval(tuuti(nanjikanmae), parseInt(receivedMessage) * 60 * 1000);
+    return {
+      type: 'text',
+      text: `通知設定が完了しました。`,
+    };
+  }
 
   // エラー
 
@@ -209,10 +208,10 @@ export const messageMap = {
   定期通知: () => {
     if (!tuutiflag) {
       tuutiflag = true;
-      refreshIntervalId = setInterval(tuuti, 3000);
+      tuutisettei[0] = true;
       return {
         type: 'text',
-        text: '通知をオンにしました',
+        text: 'TASK予定時刻の何時間前から通知を開始するか数字[1~12]で入力してください。\n  例: 2 ',
       };
     }
     else {
