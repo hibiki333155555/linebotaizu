@@ -1,7 +1,6 @@
 import { hasKey } from '../../haskey.js';
 import { PSDATA } from '../postback.js';
 import { itijikanmae, ohayo, osyaberiGPT } from './tuuti.js';
-import { PythonShell } from 'python-shell';
 //import { messageMap } from './text-map.js';
 
 export let TASKDATA = ['A社面接 7/10 22時', 'B社面接 7/10 23時', 'C社面接 7/24 24時',];
@@ -340,6 +339,12 @@ export const messageMap = {
         text: 'gptモードをオンにしました',
       };
     }
+  },
+  機能説明: () => {
+    return {
+      type: 'text',
+      text: '―――――――――――――――――――\n始めまして\！友達追加ありがとうございます♪\n―――――――――――――――――――\n・当LINEbotではTASK管理ができます\n\n・「TASK追加」と送って、順に予定・日付・時間を順に入力することで、linebotに予定を記録することができます\n\n・「TASK一覧」と送ることで、TASKをボタン形式で表示することができ、達成ボタンを押すことでTASKを削除できます\n\n・「定期通知」と送るとTASK終了一時間前から定期的に通知します\n―――――――――――――――――――\nよきLINEbotライフを!\n―――――――――――――――――――',
+    };
   },
 };
 
